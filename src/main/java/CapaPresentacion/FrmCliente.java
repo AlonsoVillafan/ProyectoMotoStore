@@ -89,6 +89,11 @@ public class FrmCliente extends javax.swing.JFrame {
         btnEliminar.setText("Eliminar");
 
         btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Distrito: ");
 
@@ -315,6 +320,11 @@ public class FrmCliente extends javax.swing.JFrame {
             });           
         }       
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        //CERRAR EL FORMULARIO
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
     
     //METODO PARA LIMPIAR FORMULARIO
     private void limpiarFormulario() {
@@ -328,14 +338,18 @@ public class FrmCliente extends javax.swing.JFrame {
 
     //METODO QUE CARGARA LOS DISTRITOS EN MI COMBO BOX
     private void cargarDistritos() {
-        //CREO UN OBJETO DAO PARA ACCEDER A LA BD
-        DistritoDAO dao = new DistritoDAO();
-        //LLAMO AL METODO QUE SE CONECTA A LA BD, TRAE TODOS LOS DISTRITOS
-        //Y LOS ALMACENO EN UNA VARIABLE QUE ES UNA LISTA DE OBJETOS DISTRITO
-        List<Distrito> distritos = dao.listarDistritos();
-        for (Distrito d : distritos) {
-            cboDistritos.addItem(d);
-        }
+        try {
+            cboDistritos.removeAllItems();
+            cboDistritos.addItem(new Distrito(0,"-Seleccione-"));
+            //LLAMO AL METODO QUE SE CONECTA A LA BD, TRAE TODOS LOS DISTRITOS
+            //Y LOS ALMACENO EN UNA VARIABLE QUE ES UNA LISTA DE OBJETOS DISTRITO
+            List<Distrito> distritos = new DistritoDAO().listarDistritos();              
+            for (Distrito d : distritos) {
+                cboDistritos.addItem(d);
+            }           
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar los distritos:" + e.getMessage());
+        }      
     }
     
     //METODO PARA CARGAR LOS CLIENTE EN LA TABLA
