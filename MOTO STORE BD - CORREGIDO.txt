@@ -1,0 +1,260 @@
+-- BASE DE DATOS
+CREATE DATABASE STOREMOTO_BD;
+GO
+USE STOREMOTO_BD;
+GO
+
+-- TABLA: Región
+CREATE TABLE Region (
+    IdRegion INT PRIMARY KEY,
+    NombreRegion NVARCHAR(50) NOT NULL
+);
+GO
+INSERT INTO Region VALUES 
+(1, 'Lima'), (2, 'Arequipa'), (3, 'Cusco'), (4, 'La Libertad'), (5, 'Piura');
+GO
+
+-- TABLA: Provincia
+CREATE TABLE Provincia (
+    IdProvincia INT PRIMARY KEY,
+    NombreProvincia NVARCHAR(50) NOT NULL,
+    IdRegion INT NOT NULL,
+    FOREIGN KEY (IdRegion) REFERENCES Region(IdRegion)
+);
+GO
+INSERT INTO Provincia VALUES 
+(1, 'Lima', 1), (2, 'Callao', 1), (3, 'Arequipa', 2), (4, 'Cusco', 3), (5, 'Trujillo', 4);
+GO
+
+-- TABLA: Distrito
+CREATE TABLE Distrito (
+    IdDistrito INT PRIMARY KEY,
+    NombreDistrito NVARCHAR(50) NOT NULL,
+    IdProvincia INT NOT NULL,
+    FOREIGN KEY (IdProvincia) REFERENCES Provincia(IdProvincia)
+);
+GO
+INSERT INTO Distrito VALUES 
+(1, 'Miraflores', 1), (2, 'San Isidro', 1), (3, 'Los Olivos', 1), (4, 'Yanahuara', 3);
+GO
+
+-- TABLA: Sucursal
+CREATE TABLE Sucursal (
+    IdSucursal CHAR(3) PRIMARY KEY,
+    NombreSucursal NVARCHAR(255) NOT NULL,
+    IdDistrito INT NOT NULL,
+    FOREIGN KEY (IdDistrito) REFERENCES Distrito(IdDistrito)
+);
+GO
+INSERT INTO Sucursal VALUES 
+('S01', 'Sucursal Miraflores', 1),
+('S02', 'Sucursal San Isidro', 2),
+('S03', 'Sucursal Yanahuara', 4),
+('S04', 'Sucursal Los Olivos', 3);
+GO
+
+-- TABLA: Cliente
+CREATE TABLE Cliente (
+    IdCliente INT IDENTITY(1,1) PRIMARY KEY,
+    Nombres NVARCHAR(50) NOT NULL,
+    Apellidos NVARCHAR(100) NOT NULL,
+    Dni NVARCHAR(8) NOT NULL UNIQUE,
+    FechaNacimiento DATE,
+    Telefono NVARCHAR(15),
+    FechaRegistro DATE DEFAULT GETDATE(),
+    IdDistrito INT NOT NULL,
+    FOREIGN KEY (IdDistrito) REFERENCES Distrito(IdDistrito)
+);
+GO
+
+INSERT INTO Cliente (Nombres, Apellidos, Dni, FechaNacimiento, Telefono, FechaRegistro, IdDistrito)
+VALUES
+('Carlos', 'González', '12345678', '1990-05-15', '987654321', '2025-04-01', 1),
+('Ana', 'Pérez', '23456788', '1985-11-10', '983453210', '2025-04-02', 2),
+('Luis', 'Martínez', '34567895', '1982-02-22', '982345678', '2025-04-03', 3),
+('María', 'López', '45678905', '1993-08-17', '981234567', '2025-04-04', 4),
+('José', 'Sánchez', '56789015', '1995-01-01', '980123456', '2025-04-05', 2),
+('Pedro', 'Ramírez', '67890121', '1988-04-25', '987987987', '2025-04-06', 1),
+('Laura', 'García', '78901231', '1991-07-13', '986123123', '2025-04-07', 2),
+('Juan', 'Hernández', '89012342', '1984-12-05', '985234234', '2020-04-08', 3),
+('Marta', 'Díaz', '90123425', '1992-09-23', '984345345', '2020-04-09', 4),
+('Pedro', 'Fernández', '01234526', '1987-03-19', '983456456', '2021-04-10', 4),
+('Sofía', 'Gómez', '11223344', '1990-10-30', '982567567', '2021-04-11', 1),
+('José', 'Vázquez', '22334454', '1980-06-10', '981678678', '2021-04-12', 2),
+('Paula', 'Paredes', '33445568', '1986-11-28', '980789789', '2020-04-13', 3);
+
+
+
+-- TABLA: TipoDeMoto
+CREATE TABLE TipoDeMoto (
+    IdTipoMoto INT PRIMARY KEY,
+    NombreTipoMoto NVARCHAR(50) NOT NULL
+);
+GO
+INSERT INTO TipoDeMoto VALUES 
+(1, 'Scooter'), (2, 'Deportiva'), (3, 'Todo Terreno'), (4, 'Touring'), (5, 'Cruiser');
+GO
+
+-- TABLA: Marca
+CREATE TABLE Marca (
+    IdMarca INT PRIMARY KEY,
+    NombreMarca NVARCHAR(50) NOT NULL
+);
+GO
+INSERT INTO Marca VALUES 
+(1, 'Honda'), (2, 'Yamaha'), (3, 'Suzuki'), (4, 'Kawasaki'), (5, 'BMW');
+GO
+
+-- TABLA: Moto
+CREATE TABLE Moto (
+    IdMoto INT IDENTITY(1,1) PRIMARY KEY,
+    IdTipoMoto INT NOT NULL,
+    IdMarca INT NOT NULL,
+    Color NVARCHAR(50) NOT NULL,
+    Precio DECIMAL(10, 2) NOT NULL,
+    Stock INT NOT NULL DEFAULT 0,
+    FOREIGN KEY (IdTipoMoto) REFERENCES TipoDeMoto(IdTipoMoto),
+    FOREIGN KEY (IdMarca) REFERENCES Marca(IdMarca)
+);
+GO
+
+INSERT INTO Moto (IdTipoMoto, IdMarca, Color, Precio, Stock)
+VALUES
+(1, 1, 'Rojo', 15000.00, 10),  -- Scooter Honda
+(2, 2, 'Azul', 25000.00, 5),     -- Deportiva Yamaha
+(3, 3, 'Verde', 20000.00, 8),  -- Todo Terreno Suzuki
+(4, 4, 'Negro', 30000.00, 2),  -- Touring Kawasaki
+(5, 5, 'Blanco', 35000.00, 3),   -- Cruiser BMW
+(1, 2, 'Amarillo', 16000.00, 12),  -- Scooter Yamaha
+(2, 3, 'Naranja', 27000.00, 4),  -- Deportiva Suzuki
+(3, 1, 'Gris', 22000.00, 6),     -- Todo Terreno Honda
+(4, 5, 'Rojo', 32000.00, 1),  -- Touring BMW
+(5, 4, 'Azul', 29000.00, 9),  -- Cruiser Kawasaki
+(1, 1, 'Verde', 15500.00, 11),  -- Scooter Honda
+(2, 2, 'Negro', 26000.00, 7),  -- Deportiva Yamaha
+(3, 3, 'Blanco', 21000.00, 10),  -- Todo Terreno Suzuki
+(4, 4, 'Plateado', 31000.00, 5),  -- Touring Kawasaki
+(5, 5, 'Rojo', 34000.00, 8);   -- Cruiser BMW
+
+
+
+
+
+-- TABLA: Empleado (Nueva)
+CREATE TABLE Empleado (
+    IdEmpleado INT IDENTITY(1,1) PRIMARY KEY,
+    Nombres NVARCHAR(50) NOT NULL,
+    Apellidos NVARCHAR(100) NOT NULL,
+    Email VARCHAR(50),
+    Telefono VARCHAR(15),
+    FechaIngreso DATE DEFAULT GETDATE()
+);
+GO
+
+INSERT INTO Empleado (Nombres, Apellidos, Email, Telefono)
+VALUES
+('Marco', 'Soto Valverde', 'marco.soto@empresa.com', '981111111'),
+('Paola', 'Ríos Pérez', 'paola.rios@empresa.com', '982222222'),
+('Luis', 'García Ramírez', 'luis.garcia@empresa.com', '983333333'),
+('Ana', 'Torres Fernández', 'ana.torres@empresa.com', '984444444'),
+('Javier', 'Mendoza Castro', 'javier.mendoza@empresa.com', '985555555'),
+('Lucía', 'Martínez Lopez', 'lucia.martinez@empresa.com', '986666666');
+GO
+
+
+CREATE TABLE Usuario (
+    IdUsuario INT IDENTITY(1,1) PRIMARY KEY,
+    Username VARCHAR(50) NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL,
+    Rol VARCHAR(20) NOT NULL,
+    IdEmpleado INT,
+    FOREIGN KEY (IdEmpleado) REFERENCES Empleado(IdEmpleado)
+);
+GO
+
+INSERT INTO Usuario (Username, Password, Rol, IdEmpleado) VALUES
+('grupo04', '1234', 'admin', 1),
+('vendedor01', 'ventas1234', 'vendedor', 2),
+('luisAdmin', 'admin456', 'admin', 3),
+('anaVentas', 'ventasAna', 'vendedor', 4),
+('javiVentas', 'ventasJavi', 'vendedor', 5),
+('luciaAdmin', 'adminLucia', 'admin', 6);
+GO
+
+
+
+-- TABLA: Venta (Modificada)
+CREATE TABLE Venta (
+    IdVenta CHAR(4) PRIMARY KEY,
+    IdCliente INT,
+    FechaVenta DATE DEFAULT GETDATE(),
+    FormaPago NVARCHAR(20),
+    IdSucursal CHAR(3) NOT NULL,
+    IdEmpleado INT NOT NULL,
+    FOREIGN KEY (IdCliente) REFERENCES Cliente(IdCliente),
+    FOREIGN KEY (IdSucursal) REFERENCES Sucursal(IdSucursal),
+    FOREIGN KEY (IdEmpleado) REFERENCES Empleado(IdEmpleado)
+);
+GO
+INSERT INTO Venta (IdVenta, IdCliente, FechaVenta, FormaPago, IdSucursal, IdEmpleado) VALUES
+('V001', 1, '2025-04-01', 'Efectivo', 'S01', 1),
+('V002', 2, '2025-04-02', 'Tarjeta', 'S02', 2),
+('V003', 3, '2025-04-03', 'Tarjeta', 'S03', 1),
+('V004', 4, '2025-04-04', 'Efectivo', 'S04', 2);
+GO
+
+-- TABLA: DetalleVenta
+CREATE TABLE DetalleVenta (
+    IdVenta CHAR(4) NOT NULL,
+    IdMoto INT NOT NULL,
+    Cantidad TINYINT NOT NULL,
+    PrecioVentaUnidad DECIMAL(10,2) NOT NULL,
+    Descuento DECIMAL(10,2) DEFAULT 0.00,
+    PRIMARY KEY (IdVenta, IdMoto),
+    FOREIGN KEY (IdVenta) REFERENCES Venta(IdVenta),
+    FOREIGN KEY (IdMoto) REFERENCES Moto(IdMoto)
+);
+GO
+INSERT INTO DetalleVenta VALUES 
+('V001', 1, 1, 4500.00, 0.00),
+('V002', 2, 2, 7800.00, 500.00),
+('V003', 3, 1, 9500.00, 300.00),
+('V004', 4, 1, 15000.00, 1000.00);
+GO
+
+-- TABLA: TipoReclamo
+CREATE TABLE TipoReclamo (
+    IdTipoReclamo INT PRIMARY KEY,
+    NombreTipoReclamo NVARCHAR(25) NOT NULL
+);
+GO
+INSERT INTO TipoReclamo VALUES 
+(1, 'Defecto'),
+(2, 'Garantía'),
+(3, 'Retraso'),
+(4, 'Falla Técnica'),
+(5, 'Otro');
+GO
+
+-- TABLA: Reclamo
+CREATE TABLE Reclamo (
+    IdReclamo INT IDENTITY(1,1) PRIMARY KEY,
+    DetalleReclamo NVARCHAR(255) NOT NULL,
+    FechaReclamo DATE NOT NULL,
+    EstadoReclamo NVARCHAR(25) NOT NULL,
+    IdTipoReclamo INT NOT NULL,
+    IdVenta CHAR(4),
+    IdSucursal CHAR(3) NOT NULL,
+    MontoEnReclamo DECIMAL(10,2) DEFAULT 0.00,
+    FOREIGN KEY (IdTipoReclamo) REFERENCES TipoReclamo(IdTipoReclamo),
+    FOREIGN KEY (IdVenta) REFERENCES Venta(IdVenta),
+    FOREIGN KEY (IdSucursal) REFERENCES Sucursal(IdSucursal)
+);
+GO
+
+INSERT INTO Reclamo (DetalleReclamo, FechaReclamo, EstadoReclamo, IdTipoReclamo, IdVenta, IdSucursal, MontoEnReclamo) VALUES
+('Falla en el motor', '2025-04-06', 'Pendiente', 1, 'V001', 'S01', 300.00),
+('Retraso en entrega', '2025-04-07', 'Pendiente', 3, 'V002', 'S02', 0.00),
+('Problemas de garantía', '2025-04-08', 'Pendiente', 2, 'V003', 'S03', 200.00),
+('Defecto en pintura', '2025-04-09', 'Resuelto', 1, 'V004', 'S04', 100.00);
+GO
