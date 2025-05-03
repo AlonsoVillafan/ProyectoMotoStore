@@ -1,6 +1,5 @@
 package CapaDatos;
 
-
-public class VentaDAO {
+public class EmpleadoDAO {
     
 }

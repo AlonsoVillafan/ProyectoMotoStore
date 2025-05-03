@@ -41,4 +41,3 @@ public class DistritoDAO {
         return lista;
     }
 }
-

@@ -1,4 +1,3 @@
-
 package CapaLogica;
 
 public class Marca {
@@ -25,9 +24,5 @@ public class Marca {
 
     public void setNombreMarca(String nombreMarca) {
         this.nombreMarca = nombreMarca;
-    }
-    
-    
-    
-    
+    }   
 }
