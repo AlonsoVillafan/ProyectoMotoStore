@@ -101,7 +101,7 @@ public class ClienteDAO {
                             rs.getString("Telefono"),
                             rs.getDate("FechaRegistro"),
                             new Distrito (rs.getInt("IdDistrito"),rs.getString("NombreDistrito"))
-                    );               
+                    );          
                     lista.add(cliente);
                 }
             }                           
