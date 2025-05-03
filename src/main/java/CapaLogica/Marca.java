@@ -25,4 +25,11 @@ public class Marca {
     public void setNombreMarca(String nombreMarca) {
         this.nombreMarca = nombreMarca;
     }   
+
+    @Override
+    public String toString() {
+        return nombreMarca; 
+    }
+    
+
 }

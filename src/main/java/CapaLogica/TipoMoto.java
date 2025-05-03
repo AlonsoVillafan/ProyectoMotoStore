@@ -5,7 +5,8 @@ public class TipoMoto {
     private int idTipoMoto;
     private String nombreTipoMoto;
 
-    public TipoMoto(String nombreTipoMoto) {
+    public TipoMoto(int idTipoMoto, String nombreTipoMoto) {
+        this.idTipoMoto = idTipoMoto;
         this.nombreTipoMoto = nombreTipoMoto;
     }
 
@@ -25,6 +26,9 @@ public class TipoMoto {
         this.nombreTipoMoto = nombreTipoMoto;
     }
     
-    
-    
+    //LO QUE SE MOSTRARA AL IMPRIMIR EL OBJETO
+    @Override
+    public String toString() {
+        return nombreTipoMoto;
+    }      
 }

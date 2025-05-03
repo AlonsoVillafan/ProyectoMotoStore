@@ -3,13 +3,13 @@ package CapaLogica;
 
 public class Moto {
     private int idMoto;
-    private int idTipoMoto;
-    private int idMarca;
+    private TipoMoto idTipoMoto;
+    private Marca idMarca;
     private String Color;
     private double precio;
     private int Stock;
 
-    public Moto(int idMoto, int idTipoMoto, int idMarca, String Color, double precio, int Stock) {
+    public Moto(int idMoto, TipoMoto idTipoMoto, Marca idMarca, String Color, double precio, int Stock) {
         this.idMoto = idMoto;
         this.idTipoMoto = idTipoMoto;
         this.idMarca = idMarca;
@@ -26,19 +26,19 @@ public class Moto {
         this.idMoto = idMoto;
     }
 
-    public int getIdTipoMoto() {
+    public TipoMoto getIdTipoMoto() {
         return idTipoMoto;
     }
 
-    public void setIdTipoMoto(int idTipoMoto) {
+    public void setIdTipoMoto(TipoMoto idTipoMoto) {
         this.idTipoMoto = idTipoMoto;
     }
 
-    public int getIdMarca() {
+    public Marca getIdMarca() {
         return idMarca;
     }
 
-    public void setIdMarca(int idMarca) {
+    public void setIdMarca(Marca idMarca) {
         this.idMarca = idMarca;
     }
 
@@ -65,9 +65,4 @@ public class Moto {
     public void setStock(int Stock) {
         this.Stock = Stock;
     }
-    
-    
-    
-    
-    
 }

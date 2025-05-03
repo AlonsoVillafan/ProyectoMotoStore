@@ -1,3 +1,7 @@
+--FORMULARIO CLIENTE--------------------------------------------------------
+----------------------------------------------------------------------------
+--COMBO BOX
+----------------------------------------------------------------------------
 CREATE PROCEDURE SP_LISTAR_DISTRITOS
 AS
 BEGIN
@@ -7,9 +11,9 @@ END
 --
 EXEC SP_LISTAR_DISTRITOS
 
---------------------------------------------
-
-----------------------------------------------------------
+---------------------------------------------------------------------------
+--BOTON GUARDAR
+---------------------------------------------------------------------------
 CREATE PROCEDURE SP_REGISTRAR_CLIENTE
     @nombres VARCHAR(100),
     @apellidos VARCHAR(100),
@@ -34,9 +38,9 @@ BEGIN
     END
 END
 
---------------------------------------------
-
-----------------------------------------------------------
+---------------------------------------------------------------------------
+--PARA CARGAR LA DATA EN EL JTABLE
+---------------------------------------------------------------------------
 CREATE PROCEDURE SP_LISTAR_CLIENTES
 AS
 BEGIN
@@ -53,10 +57,10 @@ BEGIN
 	FROM Cliente AS C
 	INNER JOIN Distrito AS D ON C.IdDistrito = D.IdDistrito
 END
------------------------------------------------------------
---------------------------- 
-exec SP_LISTAR_CLIENTES
------------------------------------------------------------
+
+---------------------------------------------------------------------------
+--BOTON BUSCAR CLIENTE
+---------------------------------------------------------------------------
 CREATE PROCEDURE SP_BUSCAR_CLIENTE
     @texto NVARCHAR(100)
 AS
@@ -77,11 +81,53 @@ BEGIN
        OR c.Apellidos LIKE '%' + @texto + '%'
        OR c.Dni LIKE '%' + @texto + '%'
 END
-----
-EXEC SP_BUSCAR_CLIENTE MAR
----
--------------------------------------------------------------
---para mostrarlo en un label
+
+--FORMULARIO VENTA ------------------------------------------------
+---------------------------------------------------------------------------
+--BOTON BUSCAR MOTO
+---------------------------------------------------------------------------
+CREATE PROCEDURE SP_BUSCAR_MOTO
+	@texto NVARCHAR (50)
+AS
+BEGIN
+	SELECT	M.IdMoto,
+			TM.NombreTipoMoto,
+			MARC.NombreMarca,
+			M.Color,
+			M.Precio,
+			M.Stock
+	FROM Moto M
+	JOIN TipoDeMoto TM ON M.IdTipoMoto = TM.IdTipoMoto
+	JOIN Marca MARC ON M.IdMarca = MARC.IdMarca
+	WHERE TM.NombreTipoMoto LIKE '%' + @texto + '%'
+		OR MARC.NombreMarca LIKE '%' + @texto + '%'
+END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--FORMULARIO DETALLE DE VENTA ------------------------------------------------
+---------------------------------------------------------------------------
+--PARA MOSTRARLO EN UN LABEL
+---------------------------------------------------------------------------
 CREATE PROCEDURE SP_MOTO_MAS_BARATA
 AS
 BEGIN
