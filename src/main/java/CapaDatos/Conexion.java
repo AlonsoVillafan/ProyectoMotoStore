@@ -10,7 +10,7 @@ public class Conexion {
     //pivate : Solo esta clase puede acceder a estas variables
     //static : La variable pertenece a la clase, no a una instancia. Solo se carga una vez en memoria
     private static final 
-            String url = "jdbc:sqlserver://localhost:1433;instanceName=SQLEXPRESS;databaseName=STOREMOTO_BD;encrypt=true;trustServerCertificate=true";     
+            String url = "jdbc:sqlserver://localhost:1433;instanceName=SQLEXPRESS;databaseName=MOTOSTORE_BD;encrypt=true;trustServerCertificate=true";     
     private static final
             String user = "sa"; 
     private static final

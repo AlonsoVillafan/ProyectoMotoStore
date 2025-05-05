@@ -47,7 +47,7 @@ public class FrmDetalleVenta extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 153));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "DETALLE VENTA", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(41, 43, 45)), "DETALLE VENTA", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18))); // NOI18N
 
         jLabel2.setText("Cantidad:");
 
@@ -161,7 +161,7 @@ public class FrmDetalleVenta extends javax.swing.JFrame {
         for (Moto fila : lista) {
             modelo.addRow(new Object[]{
                 fila.getIdMoto(),
-                fila.getIdMoto(),
+                fila.getIdTipoMoto(),
                 fila.getIdMarca(),
                 fila.getColor(),
                 fila.getPrecio(),

@@ -13,7 +13,7 @@ public class MotoDAO {
     
     public List<Moto> BuscarMoto(String buscar){
         List<Moto> lista = new ArrayList<>();
-        String sql = "{CALL SP_BUSCAR_MOTOS(?)}";
+        String sql = "{CALL SP_BUSCAR_MOTO(?)}";
         
         try (   Connection cn = new Conexion().getConnection();
                 CallableStatement cs = cn.prepareCall(sql)
@@ -35,7 +35,7 @@ public class MotoDAO {
                 }                              
             }                     
         } catch (Exception e) {
-            System.out.println("Error al buscar clientes: " + e.getMessage()); 
+            System.out.println("Error al buscar Moto: " + e.getMessage()); 
         }        
         return lista;
     }   
