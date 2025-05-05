@@ -19,8 +19,10 @@ CapaDatos\DistritoDAO.class
 CapaPresentacion\FrmCliente.class
 CapaPresentacion\FrmVenta.class
 CapaPresentacion\FrmCliente$2.class
+CapaPresentacion\FrmVenta$2.class
 CapaLogica\TipoMoto.class
 CapaDatos\MarcaDAO.class
+CapaPresentacion\FrmDetalleVenta$3.class
 CapaPresentacion\FrmDetalleVenta$2.class
 CapaPresentacion\FrmLogin.class
 CapaPresentacion\FrmMoto.class
@@ -28,6 +30,7 @@ CapaLogica\Distrito.class
 CapaPresentacion\FrmCliente$3.class
 CapaLogica\DetalleVenta.class
 CapaLogica\Cliente.class
+CapaPresentacion\FrmCliente$5.class
 CapaDatos\TipoMotoDAO.class
 CapaLogica\Venta.class
 CapaDatos\ClienteDAO.class

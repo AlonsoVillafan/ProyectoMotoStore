@@ -82,7 +82,7 @@ BEGIN
        OR c.Dni LIKE '%' + @texto + '%'
 END
 
---FORMULARIO VENTA ------------------------------------------------
+--FORMULARIO DETALLE DE VENTA ------------------------------------------------
 ---------------------------------------------------------------------------
 --BOTON BUSCAR MOTO
 ---------------------------------------------------------------------------
@@ -103,28 +103,21 @@ BEGIN
 		OR MARC.NombreMarca LIKE '%' + @texto + '%'
 END
 
+---------------------------------------------------------------------------
+--PARA REGISTRAR EL DETALLE DE LA VENTA
+---------------------------------------------------------------------------
+CREATE PROCEDURE SP_REGISTRAR_DETALLE_VENTA
+    @idVenta CHAR(4),
+    @idMoto INT,
+	@cantidad TINYINT,
+	@precio DECIMAL(10,2),
+	@descuento DECIMAL(10,2)
+AS
+BEGIN
+    INSERT INTO DetalleVenta (IdVenta, IdMoto, Cantidad, PrecioVentaUnidad, Descuento)
+    VALUES (@idVenta, @idMoto, @cantidad , @precio, @descuento)
+END
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---FORMULARIO DETALLE DE VENTA ------------------------------------------------
 ---------------------------------------------------------------------------
 --PARA MOSTRARLO EN UN LABEL
 ---------------------------------------------------------------------------
@@ -140,3 +133,20 @@ BEGIN
 END
 
 --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 TOKEN NETBEANS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

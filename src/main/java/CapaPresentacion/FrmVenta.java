@@ -132,6 +132,11 @@ public class FrmVenta extends javax.swing.JFrame {
 
         btnDetalleVenta.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         btnDetalleVenta.setText("Seleccionar Moto");
+        btnDetalleVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetalleVentaActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setText("DETALLE DE VENTA");
@@ -168,6 +173,12 @@ public class FrmVenta extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnDetalleVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetalleVentaActionPerformed
+        // TODO add your handling code here:
+        FrmDetalleVenta frmDetalleVenta = new FrmDetalleVenta();
+        frmDetalleVenta.setVisible(true);
+    }//GEN-LAST:event_btnDetalleVentaActionPerformed
 
     /**
      * @param args the command line arguments

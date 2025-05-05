@@ -5,13 +5,13 @@ import java.sql.Date;
 public class Venta {
     
     private int idVenta;
-    private int idCliente;
+    private Cliente idCliente;
     private Date fechaVenta;
     private String formaPago;
     private Sucursal sucursal;
     private Empleado empleado;
 
-    public Venta(int idVenta, int idCliente, Date fechaVenta, String formaPago, Sucursal sucursal, Empleado empleado) {
+    public Venta(int idVenta, Cliente idCliente, Date fechaVenta, String formaPago, Sucursal sucursal, Empleado empleado) {
         this.idVenta = idVenta;
         this.idCliente = idCliente;
         this.fechaVenta = fechaVenta;
@@ -28,11 +28,11 @@ public class Venta {
         this.idVenta = idVenta;
     }
 
-    public int getIdCliente() {
+    public Cliente getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setIdCliente(Cliente idCliente) {
         this.idCliente = idCliente;
     }
 
