@@ -55,10 +55,7 @@ public class FrmVenta extends javax.swing.JFrame {
 
         tablaDetalleVenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "ID VENTA", "ID MOTO", "CANTIDAD", "PRECIO VENTA", "DESCUENTO"
@@ -200,8 +197,7 @@ public class FrmVenta extends javax.swing.JFrame {
         DefaultTableModel modelo = (DefaultTableModel) tablaDetalleVenta.getModel();
 
         String idVenta = txtIdVenta.getText(); // puedes generarlo automáticamente o llenarlo antes
-        Object[] fila = { idVenta, idMoto, cantidad, precioUnidad, descuento };
-        modelo.addRow(fila);
+        modelo.addRow(new Object[]{ idVenta, idMoto, cantidad, precioUnidad, descuento });
     }
     
     //METODO QUE CARGARA LOS DISTRITOS EN MI COMBO BOX

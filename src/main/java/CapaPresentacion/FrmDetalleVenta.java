@@ -183,10 +183,39 @@ public class FrmDetalleVenta extends javax.swing.JFrame {
         if (filaSeleccionada >= 0) {
             String idMoto = tablaListadoMoto.getValueAt(filaSeleccionada, 0).toString();
             String precioStr = tablaListadoMoto.getValueAt(filaSeleccionada, 4).toString(); // columna 4 = precio
+            
+            // Validación para cantidad (no debe estar vacío ni ser texto)
+            String cantidadStr = txtCantidad.getText().trim();
+            if (cantidadStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "La cantidad no puede estar vacía.");
+                return; // Salir del método
+            }
 
-            int cantidad = Integer.parseInt(txtCantidad.getText());
-            double descuento = Double.parseDouble(txtDescuento.getText());
+            int cantidad;
+            try {
+                cantidad = Integer.parseInt(cantidadStr);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "La cantidad debe ser un número entero.");
+                return; // Salir del método
+            }
+
+            // Validación para descuento (no debe estar vacío ni ser texto)
+            String descuentoStr = txtDescuento.getText().trim();
+            if (descuentoStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El descuento no puede estar vacío.");
+                return; // Salir del método
+            }
+
+            double descuento;
+            try {
+                descuento = Double.parseDouble(descuentoStr);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "El descuento debe ser un número válido.");
+                return; // Salir del método
+            }
+
             double precio = Double.parseDouble(precioStr);
+
             
             frmVenta.agregarDetalleVenta(idMoto, cantidad, precio, descuento); // llamada al método de FrmVenta
 
