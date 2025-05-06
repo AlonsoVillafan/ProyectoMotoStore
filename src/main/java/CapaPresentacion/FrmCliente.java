@@ -337,9 +337,19 @@ public class FrmCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnVistaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVistaVentaActionPerformed
-        // TODO add your handling code here:
-        FrmVenta frmVenta = new FrmVenta();
-        frmVenta.setVisible(true);
+        //ALMACENO LA FILA SELECCIONADA EN UNA VARIABLE
+        int fila = tablaListadoClientes.getSelectedRow();
+        
+        if (fila>=0) {
+            //SUPONEMOS QUE EL ID DEL CLIENTE ESTA EN LA COLUMNA 0
+            String idCliente = tablaListadoClientes.getValueAt(fila, 0).toString();
+            FrmVenta frmVenta = new FrmVenta();
+            frmVenta.setVisible(true);
+            frmVenta.setIdCliente(idCliente); //METODO DE ACCESO EN EL FrmVENTA()
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "PRIMERO SELECIONA UN CLIENTE!!");
+        } 
     }//GEN-LAST:event_btnVistaVentaActionPerformed
     
     //METODO PARA LIMPIAR FORMULARIO

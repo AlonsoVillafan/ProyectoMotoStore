@@ -5,6 +5,7 @@ import CapaLogica.Distrito;
 import CapaLogica.Sucursal;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -181,14 +182,24 @@ public class FrmVenta extends javax.swing.JFrame {
 
     private void btnDetalleVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetalleVentaActionPerformed
         // TODO add your handling code here:
-        FrmDetalleVenta frmDetalleVenta = new FrmDetalleVenta();
+        FrmDetalleVenta frmDetalleVenta = new FrmDetalleVenta(this); //PASO LA INSTANCIA DE FRMVENTA
         frmDetalleVenta.setVisible(true);
     }//GEN-LAST:event_btnDetalleVentaActionPerformed
 
+    //METODO DE ACCESO PARA SETEAR EL IDCLIENTE SELECCIONADO
+    //EN LA CAJA DE TEXTO
+    public void setIdCliente(String idCliente){
+        txtCodCliente.setText(idCliente);
+    }
     
-    
-    
-    
+    //METODO PARA AGREGAR LOS DATOS DEL FORMULARIO DETALLE VENTA:
+    public void agregarDetalleVenta(String idMoto, int cantidad, double precioUnidad, double descuento) {
+        DefaultTableModel modelo = (DefaultTableModel) tablaDetalleVenta.getModel();
+
+        String idVenta = txtIdVenta.getText(); // puedes generarlo automáticamente o llenarlo antes
+        Object[] fila = { idVenta, idMoto, cantidad, precioUnidad, descuento };
+        modelo.addRow(fila);
+    }
     
     //METODO QUE CARGARA LOS DISTRITOS EN MI COMBO BOX
     private void cargarSucursales() {

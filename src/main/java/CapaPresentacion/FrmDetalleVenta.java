@@ -16,11 +16,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmDetalleVenta extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrmDetalleVenta
-     */
-    public FrmDetalleVenta() {
+    private FrmVenta frmVenta; //CREO UN ATRIBUTO - OBJETO QUE INSTACIA AL FrmVENTA()
+    
+    //CONSTRUCTOR QUE RECIBE COMO PARAMETRO UN OBJETO
+    public FrmDetalleVenta(FrmVenta frmVenta) {
         initComponents();
+        this.frmVenta = frmVenta;
     }
 
     /**
@@ -177,45 +178,25 @@ public class FrmDetalleVenta extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-        FrmVenta frmVenta = new FrmVenta();
-        frmVenta.setVisible(true);
+        int filaSeleccionada = tablaListadoMoto.getSelectedRow();
+
+        if (filaSeleccionada >= 0) {
+            String idMoto = tablaListadoMoto.getValueAt(filaSeleccionada, 0).toString();
+            String precioStr = tablaListadoMoto.getValueAt(filaSeleccionada, 4).toString(); // columna 4 = precio
+
+            int cantidad = Integer.parseInt(txtCantidad.getText());
+            double descuento = Double.parseDouble(txtDescuento.getText());
+            double precio = Double.parseDouble(precioStr);
+
+            frmVenta.agregarDetalleVenta(idMoto, cantidad, precio, descuento); // llamada al método de FrmVenta
+
+            this.dispose(); // cerrar FrmDetalleVenta
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona una moto.");
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmDetalleVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmDetalleVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmDetalleVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmDetalleVenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmDetalleVenta().setVisible(true);
-            }
-        });
-    }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscarMoto;
