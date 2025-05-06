@@ -40,7 +40,7 @@ GO
 
 -- TABLA: Sucursal
 CREATE TABLE Sucursal (
-    IdSucursal CHAR(3) PRIMARY KEY,
+    IdSucursal VARCHAR(10) PRIMARY KEY,
     NombreSucursal NVARCHAR(255) NOT NULL,
     IdDistrito INT NOT NULL,
     FOREIGN KEY (IdDistrito) REFERENCES Distrito(IdDistrito)
@@ -185,11 +185,11 @@ GO
 
 -- TABLA: Venta (Modificada)
 CREATE TABLE Venta (
-    IdVenta CHAR(4) PRIMARY KEY,
+    IdVenta VARCHAR(10) PRIMARY KEY,
     IdCliente INT,
     FechaVenta DATE DEFAULT GETDATE(),
     FormaPago NVARCHAR(20),
-    IdSucursal CHAR(3) NOT NULL,
+    IdSucursal VARCHAR(10) NOT NULL,
     IdEmpleado INT NOT NULL,
     FOREIGN KEY (IdCliente) REFERENCES Cliente(IdCliente),
     FOREIGN KEY (IdSucursal) REFERENCES Sucursal(IdSucursal),
@@ -205,7 +205,7 @@ GO
 
 -- TABLA: DetalleVenta
 CREATE TABLE DetalleVenta (
-    IdVenta CHAR(4) NOT NULL,
+    IdVenta VARCHAR(10) NOT NULL,
     IdMoto INT NOT NULL,
     Cantidad TINYINT NOT NULL,
     PrecioVentaUnidad DECIMAL(10,2) NOT NULL,
@@ -243,8 +243,8 @@ CREATE TABLE Reclamo (
     FechaReclamo DATE NOT NULL,
     EstadoReclamo NVARCHAR(25) NOT NULL,
     IdTipoReclamo INT NOT NULL,
-    IdVenta CHAR(4),
-    IdSucursal CHAR(3) NOT NULL,
+    IdVenta VARCHAR(10),
+    IdSucursal VARCHAR(10) NOT NULL,
     MontoEnReclamo DECIMAL(10,2) DEFAULT 0.00,
     FOREIGN KEY (IdTipoReclamo) REFERENCES TipoReclamo(IdTipoReclamo),
     FOREIGN KEY (IdVenta) REFERENCES Venta(IdVenta),
