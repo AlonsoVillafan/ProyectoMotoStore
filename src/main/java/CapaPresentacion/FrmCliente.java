@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package CapaPresentacion;
 
 import CapaDatos.ClienteDAO;
@@ -249,57 +246,62 @@ public class FrmCliente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
+        //OBTENGO LOS DATOS DE LOS CAMPOS DEL FORMULARIO
+        //BORRO LOS ESPACIOS EN BLANCO USANDO TRIM()
         String nombres = txtNombres.getText();
         String apellidos = txtApellidos.getText();
-        String dni = txtDni.getText();
-        String fechaNac = txtFechaNac.getText();
-        String telefono = txtTelefono.getText();
+        String dni = txtDni.getText().trim();
+        String fechaNac = txtFechaNac.getText().trim();
+        String telefono = txtTelefono.getText().trim();
         
         //VALIDO QUE SE LLENEN TODOS LOS CAMPOS
         if (nombres.isEmpty() || apellidos.isEmpty() || dni.isEmpty() ||
                 fechaNac.isEmpty() || telefono.isEmpty()) {           
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios."); 
+            return; //SE CORTA EL FLUJO SI HAY CAMPOS VACIOS
         }
         
+        
+        //CONVERTIMOS EL TEXTO DE LA FECHA A FORMATO JAVA.UTIL.DATE
+        java.util.Date fechaNacimiento = null;
+        
+        try {
+            java.text.SimpleDateFormat formato = new java.text.SimpleDateFormat("dd/MM/yyyy");
+            formato.setLenient(false); //NO PERMITE FECHAS INVALIDAD COMO 32/01/2024
+            fechaNacimiento = formato.parse(fechaNac);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Fecha inválida. Usa el formato dd/MM/yyyy.");
+            return;
+        }
+            
+        //OBTENGO EL DISTRITO SELECCIONADO DEL COMBO BOX
+        Distrito distritoSeleccionado = (Distrito) cboDistritos.getSelectedItem();
+        if (distritoSeleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un distrito.");
+            return;
+        }     
+            
+        //PRIMERO CREAMOS AL OBJETO CLIENTE CON LOS DATOS RECOGIDOS
+        Cliente nuevoCliente = new Cliente(
+                nombres,
+                apellidos,
+                dni,
+                fechaNacimiento,
+                telefono,
+                distritoSeleccionado //CUANDO SELECCIONO UN ITEM DEL COMBO TRAE EL OBJETO COMPLETO
+        );
+        //LUEGO LLAMAMOS AL METODO DEL DAO PARA REGISTRAR AL CLIENTE
+        ClienteDAO dao = new ClienteDAO();
+        boolean exito = dao.registrarCliente(nuevoCliente); //NUEVO CLIENTE ES UN OBJETO QUE TIENE TODOS LOS DATOS
+         
+        //MOSTRAMOS UN MENSAJE SEGUN EL RESULTADO
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Cliente registrado correctamente.");
+            limpiarFormulario(); //LIMPIO FORMULARIO DESPUES DE AGREGAR    
+        }
         else{
-            //CONVERTIMOS EL TEXTO DE LA FECHA A FORMATO JAVA.UTIL.DATE
-            java.util.Date fechaNacimiento = null;
-            try {
-                java.text.SimpleDateFormat formato = new java.text.SimpleDateFormat("dd/MM/yyyy");
-                formato.setLenient(false);
-                fechaNacimiento = formato.parse(fechaNac);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Fecha inválida. Usa el formato dd/MM/yyyy.");
-                return;
-            }
-            
-            //OBTENGO EL DISTRITO SELECCIONADO
-            Distrito distritoSeleccionado = (Distrito) cboDistritos.getSelectedItem();
-            if (distritoSeleccionado == null) {
-                JOptionPane.showMessageDialog(this, "Debe seleccionar un distrito.");
-                return;
-            }           
-            int idDistrito = distritoSeleccionado.getId();
-            
-            //REGISTRAMOS AL CLIENTE
-            ClienteDAO dao = new ClienteDAO();
-            boolean exito = dao.registrarCliente(
-                    nombres,
-                    apellidos,
-                    dni,
-                    new java.sql.Date(fechaNacimiento.getTime()),
-                    telefono,
-                    idDistrito);
-            
-            if (exito) {
-                JOptionPane.showMessageDialog(this, "Cliente registrado correctamente.");
-                limpiarFormulario(); //LIMPIO FORMULARIO DESPUES DE AGREGAR    
-            }
-            else{
-                JOptionPane.showMessageDialog(this, "Error al registrar cliente.");
-            }       
-        }    
+            JOptionPane.showMessageDialog(this, "Error al registrar cliente.");
+        }           
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -353,13 +355,14 @@ public class FrmCliente extends javax.swing.JFrame {
     //METODO QUE CARGARA LOS DISTRITOS EN MI COMBO BOX
     private void cargarDistritos() {
         try {
-            cboDistritos.removeAllItems();
-            cboDistritos.addItem(new Distrito(0,"-Seleccione-"));
-            //LLAMO AL METODO QUE SE CONECTA A LA BD, TRAE TODOS LOS DISTRITOS
+            cboDistritos.removeAllItems(); //LIMPIO EL COMBO
+            cboDistritos.addItem(new Distrito(0,"-Seleccione-")); //OPCION POR DEFECTO
+            //LLAMO AL METODO QUE SE CONECTA A LA BD (DAO), TRAIGO TODOS LOS DISTRITOS
             //Y LOS ALMACENO EN UNA VARIABLE QUE ES UNA LISTA DE OBJETOS DISTRITO
             List<Distrito> distritos = new DistritoDAO().listarDistritos();              
             for (Distrito d : distritos) {
-                cboDistritos.addItem(d);
+                cboDistritos.addItem(d); //AGREGO CADA OBJETO AL COMBO
+                                         //USANDO @OVERRIDE MUESTRO SOLO EL NOMBRE DEL DISTRITO
             }           
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar los distritos:" + e.getMessage());

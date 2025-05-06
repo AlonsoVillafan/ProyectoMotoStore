@@ -1,6 +1,6 @@
 --FORMULARIO CLIENTE--------------------------------------------------------
 ----------------------------------------------------------------------------
---COMBO BOX
+--COMBO BOX DISTRITOS
 ----------------------------------------------------------------------------
 CREATE PROCEDURE SP_LISTAR_DISTRITOS
 AS
@@ -12,7 +12,7 @@ END
 EXEC SP_LISTAR_DISTRITOS
 
 ---------------------------------------------------------------------------
---BOTON GUARDAR
+--BOTON GUARDAR - REGISTRAR EL CLIENTE
 ---------------------------------------------------------------------------
 CREATE PROCEDURE SP_REGISTRAR_CLIENTE
     @nombres VARCHAR(100),
@@ -82,7 +82,7 @@ BEGIN
        OR c.Dni LIKE '%' + @texto + '%'
 END
 
---FORMULARIO DETALLE DE VENTA ------------------------------------------------
+--FORMULARIO DETALLE DE VENTA ---------------------------------------------
 ---------------------------------------------------------------------------
 --BOTON BUSCAR MOTO
 ---------------------------------------------------------------------------
@@ -110,12 +110,12 @@ CREATE PROCEDURE SP_REGISTRAR_DETALLE_VENTA
     @idVenta CHAR(4),
     @idMoto INT,
 	@cantidad TINYINT,
-	@precio DECIMAL(10,2),
+	@precioVenta DECIMAL(10,2),
 	@descuento DECIMAL(10,2)
 AS
 BEGIN
     INSERT INTO DetalleVenta (IdVenta, IdMoto, Cantidad, PrecioVentaUnidad, Descuento)
-    VALUES (@idVenta, @idMoto, @cantidad , @precio, @descuento)
+    VALUES (@idVenta, @idMoto, @cantidad , @precioVenta, @descuento)
 END
 
 ---------------------------------------------------------------------------
@@ -135,15 +135,32 @@ END
 --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 TOKEN NETBEANS
 
 
+--FORMULARIO VENTA ---------------------------------------------
+---------------------------------------------------------------------------
+--BOTON REGISTRAR VENTA
+---------------------------------------------------------------------------
+CREATE PROCEDURE SP_REGISTRAR_VENTA
+    @idVenta CHAR(4),
+    @idCliente INT,
+	@formaPago NVARCHAR(20),
+	@idSucursal CHAR(3),
+	@idEmpleado int
+AS
+BEGIN
+    INSERT INTO Venta(IdVenta, IdCliente, FormaPago, IdSucursal, IdEmpleado)
+    VALUES (@idVenta, @idCliente, @formaPago , @idSucursal, @idEmpleado)
+END
 
-
-
-
-
-
-
-
-
+---------------------------------------------------------------------------
+--COMBO BOX LISTAR SUCURSAL
+---------------------------------------------------------------------------
+CREATE PROCEDURE SP_LISTAR_SUCURSAL
+AS
+BEGIN
+	SELECT	*
+	FROM Sucursal
+END
+--
 
 
 

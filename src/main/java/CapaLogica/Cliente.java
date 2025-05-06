@@ -1,6 +1,6 @@
 package CapaLogica;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Cliente {
     private int idCliente;
@@ -12,7 +12,7 @@ public class Cliente {
     private Date fechaRegistro;
     private Distrito distrito; // ALMACENAR EL ID Y NOMBRE DEL DISTRITO
 
-    // Constructor completo
+    // CONSTRUCTOR COMPLETO PARA RECUPERAR TODA LA INFORMACION (LECTURA)
     public Cliente(int idCliente, String nombres, String apellidos, String dni, Date fechaNac,
                     String telefono, Date fechaRegistro, Distrito distrito) {
         this.idCliente = idCliente;
@@ -24,6 +24,17 @@ public class Cliente {
         this.fechaRegistro = fechaRegistro;
         this.distrito = distrito;
     }
+    
+    //CONSTRUCTOR CON LO NECESARIO PARA REGISTRAR UN CLIENTE
+    public Cliente(String nombres, String apellidos, String dni, Date fechaNac, String telefono, Distrito distrito) {
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.dni = dni;
+        this.fechaNac = fechaNac;
+        this.telefono = telefono;
+        this.distrito = distrito;
+    }
+    
 
     // Getters y Setters
     //cuando voy a retornar un atributo

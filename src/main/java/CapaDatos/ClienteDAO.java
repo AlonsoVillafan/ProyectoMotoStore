@@ -4,7 +4,6 @@ import CapaLogica.Cliente;
 import CapaLogica.Distrito;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,28 +15,28 @@ public class ClienteDAO {
     //-------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------
     //METODO QUE DEVUELVE TRUE O FALSE SI SE REALIZÓ EL REGISTRO
-    public boolean registrarCliente(String Nombres, String Apellidos, String Dni,
-                                    Date FechaNacimiento, String Telefono, int IdDistrito){
+    public boolean registrarCliente(Cliente cliente){
        
         String sql = "{CALL SP_REGISTRAR_CLIENTE(?,?,?,?,?,?)}";
         
         try (   Connection cn = new Conexion().getConnection();
                 CallableStatement cs = cn.prepareCall(sql)){           
-            cs.setString(1, Nombres);
-            cs.setString(2, Apellidos);
-            cs.setString(3, Dni);
-            cs.setDate(4, new java.sql.Date(FechaNacimiento.getTime()));
-            cs.setString(5, Telefono);
-            cs.setInt(6, IdDistrito);           
-            cs.executeUpdate();          
-            return true;
+            cs.setString(1, cliente.getNombres());
+            cs.setString(2, cliente.getApellidos());
+            cs.setString(3, cliente.getDni());
+            //CONVIERTO JAVA.UTIL.DATE A JAVA.SQL.DATE
+            java.sql.Date fechaSQL = new java.sql.Date(cliente.getFechaNac().getTime());
+            cs.setDate(4, fechaSQL);
             
+            cs.setString(5, cliente.getTelefono());
+            cs.setInt(6, cliente.getDistrito().getId());           
+            cs.executeUpdate();          
+            return true;          
         } catch (Exception e) {
             System.out.println("Error al registrar Cliente: " + e.getMessage() );
             return false;
         }   
-    }
-    
+    }  
     
     //-------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------

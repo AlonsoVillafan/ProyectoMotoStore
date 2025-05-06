@@ -2,34 +2,34 @@ package CapaLogica;
 
 public class DetalleVenta {
     
-    private Venta idVenta;
-    private Moto idMoto;
+    private Venta venta;
+    private Moto moto;
     private int cantidad;
     private double precioVentaUnidad;
     private double descuento;
 
-    public DetalleVenta(Venta idVenta, Moto idMoto, int cantidad, double precioVentaUnidad, double descuento) {
-        this.idVenta = idVenta;
-        this.idMoto = idMoto;
+    public DetalleVenta(Venta venta, Moto moto, int cantidad, double precioVentaUnidad, double descuento) {
+        this.venta = venta;
+        this.moto = moto;
         this.cantidad = cantidad;
         this.precioVentaUnidad = precioVentaUnidad;
         this.descuento = descuento;
     }
 
-    public Venta getIdVenta() {
-        return idVenta;
+    public Venta getVenta() {
+        return venta;
     }
 
-    public void setIdVenta(Venta idVenta) {
-        this.idVenta = idVenta;
+    public void setVenta(Venta venta) {
+        this.venta = venta;
     }
 
-    public Moto getIdMoto() {
-        return idMoto;
+    public Moto getMoto() {
+        return moto;
     }
 
-    public void setIdMoto(Moto idMoto) {
-        this.idMoto = idMoto;
+    public void setMoto(Moto moto) {
+        this.moto = moto;
     }
 
     public int getCantidad() {
@@ -55,8 +55,7 @@ public class DetalleVenta {
     public void setDescuento(double descuento) {
         this.descuento = descuento;
     }
-    
-    
+
     
     
 }

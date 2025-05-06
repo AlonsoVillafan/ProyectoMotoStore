@@ -1,6 +1,10 @@
 package CapaPresentacion;
 
+import CapaDatos.SucursalDAO;
+import CapaLogica.Distrito;
 import CapaLogica.Sucursal;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,6 +17,7 @@ public class FrmVenta extends javax.swing.JFrame {
      */
     public FrmVenta() {
         initComponents();
+        cargarSucursales();
     }
 
     /**
@@ -180,6 +185,28 @@ public class FrmVenta extends javax.swing.JFrame {
         frmDetalleVenta.setVisible(true);
     }//GEN-LAST:event_btnDetalleVentaActionPerformed
 
+    
+    
+    
+    
+    
+    //METODO QUE CARGARA LOS DISTRITOS EN MI COMBO BOX
+    private void cargarSucursales() {
+        try {
+            cboSucursal.removeAllItems(); //LIMPIO EL COMBO
+            cboSucursal.addItem(new Sucursal("","-Seleccione-",new Distrito(0))); //OPCION POR DEFECTO
+            //LLAMO AL METODO QUE SE CONECTA A LA BD (DAO), TRAIGO TODOS LAS SUCURSALES
+            //Y LOS ALMACENO EN UNA VARIABLE QUE ES UNA LISTA DE OBJETOS SUCURSAL
+            List<Sucursal> sucursal = new SucursalDAO().listarSucursal();              
+            for (Sucursal s : sucursal) {
+                cboSucursal.addItem(s); //AGREGO CADA OBJETO AL COMBO
+                                         //USANDO @OVERRIDE MUESTRO SOLO EL NOMBRE DE LA SUCURSAL
+                System.out.println(s.getNombreSucursal());
+            }           
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar las Sucursales:" + e.getMessage());
+        }      
+    }    
     /**
      * @param args the command line arguments
      */

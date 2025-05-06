@@ -1,24 +1,24 @@
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaDatos\ClienteDAO.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaDatos\Conexion.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaDatos\DetalleVentaDAO.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaDatos\DistritoDAO.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaDatos\EmpleadoDAO.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaDatos\MarcaDAO.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaDatos\MotoDAO.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaDatos\SucursalDAO.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaDatos\TipoMotoDAO.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaDatos\VentaDAO.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaLogica\Cliente.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaLogica\DetalleVenta.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaLogica\Distrito.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaLogica\Empleado.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaLogica\Marca.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaLogica\Moto.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaLogica\Sucursal.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaLogica\TipoMoto.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaLogica\Venta.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaPresentacion\FrmCliente.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaPresentacion\FrmDetalleVenta.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaPresentacion\FrmLogin.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaPresentacion\FrmMoto.java
-C:\Users\UPN\Documents\ProyectoMotoStore\src\main\java\CapaPresentacion\FrmVenta.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaDatos\DetalleVentaDAO.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaLogica\Moto.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaLogica\Venta.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaDatos\ClienteDAO.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaDatos\Conexion.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaLogica\Cliente.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaLogica\Marca.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaPresentacion\FrmLogin.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaDatos\MarcaDAO.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaDatos\VentaDAO.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaDatos\MotoDAO.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaDatos\DistritoDAO.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaLogica\Sucursal.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaDatos\TipoMotoDAO.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaLogica\DetalleVenta.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaLogica\Empleado.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaLogica\TipoMoto.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaDatos\SucursalDAO.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaLogica\Distrito.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaPresentacion\FrmDetalleVenta.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaPresentacion\FrmVenta.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaDatos\EmpleadoDAO.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaPresentacion\FrmMoto.java
+C:\Users\LORD PAPU\Documents\MotoStoreBd\MotoStoreBd\src\main\java\CapaPresentacion\FrmCliente.java

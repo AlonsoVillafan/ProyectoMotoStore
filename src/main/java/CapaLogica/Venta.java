@@ -4,14 +4,15 @@ import java.sql.Date;
 
 public class Venta {
     
-    private int idVenta;
+    private String idVenta;
     private Cliente idCliente;
     private Date fechaVenta;
     private String formaPago;
     private Sucursal sucursal;
     private Empleado empleado;
 
-    public Venta(int idVenta, Cliente idCliente, Date fechaVenta, String formaPago, Sucursal sucursal, Empleado empleado) {
+    //CONSTRUCTOR PARA LECTURA
+    public Venta(String idVenta, Cliente idCliente, Date fechaVenta, String formaPago, Sucursal sucursal, Empleado empleado) {
         this.idVenta = idVenta;
         this.idCliente = idCliente;
         this.fechaVenta = fechaVenta;
@@ -19,12 +20,22 @@ public class Venta {
         this.sucursal = sucursal;
         this.empleado = empleado;
     }
+    
+    //CONTRUCTOR PARA REGISTRAR DATOS NECESARIOS
 
-    public int getIdVenta() {
+    public Venta(String idVenta, Cliente idCliente, String formaPago, Sucursal sucursal, Empleado empleado) {
+        this.idVenta = idVenta;
+        this.idCliente = idCliente;
+        this.formaPago = formaPago;
+        this.sucursal = sucursal;
+        this.empleado = empleado;
+    }
+    
+    public String getIdVenta() {
         return idVenta;
     }
 
-    public void setIdVenta(int idVenta) {
+    public void setIdVenta(String idVenta) {
         this.idVenta = idVenta;
     }
 

@@ -8,6 +8,10 @@ public class Distrito {
         this.idDistrito = idDistrito;
         this.nombreDistrito = nombreDistrito;
     }
+    
+    public Distrito(int idDistrito){
+        this.idDistrito= idDistrito;
+    }
 
     public int getId() {
         return idDistrito;
