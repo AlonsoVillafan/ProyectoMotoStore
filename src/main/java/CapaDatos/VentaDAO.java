@@ -3,6 +3,7 @@ package CapaDatos;
 import CapaLogica.Venta;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 
 
 public class VentaDAO {
@@ -25,5 +26,28 @@ public class VentaDAO {
             System.out.println("Error al registrar la venta: " + e.getMessage() );
             return false;
         } 
-    }   
+    } 
+    
+    public String generarIdVenta() {
+        String idVenta = "V001"; // Valor por defecto
+        String sql = "{CALL SP_OBTENER_ULTIMO_IDVENTA}";
+
+        try (
+            Connection cn = new Conexion().getConnection();
+            CallableStatement cs = cn.prepareCall(sql);
+            ResultSet rs = cs.executeQuery()
+        ) {
+            if (rs.next()) {
+                String ultimoId = rs.getString("IdVenta"); // por ejemplo: V007
+                int numero = Integer.parseInt(ultimoId.substring(1)); // extrae 007 → 7
+                numero++; // incrementa → 8
+                idVenta = String.format("V%03d", numero); // V008
+            }
+        } catch (Exception e) {
+            System.out.println("No se pudo obtener el nuevo ID: " + e.getMessage());
+        }
+
+        return idVenta;
+    }
+
 }

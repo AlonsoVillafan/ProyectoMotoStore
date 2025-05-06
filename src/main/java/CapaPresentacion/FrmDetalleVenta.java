@@ -177,7 +177,7 @@ public class FrmDetalleVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarMotoActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
+
         int filaSeleccionada = tablaListadoMoto.getSelectedRow();
 
         if (filaSeleccionada >= 0) {
@@ -187,7 +187,7 @@ public class FrmDetalleVenta extends javax.swing.JFrame {
             int cantidad = Integer.parseInt(txtCantidad.getText());
             double descuento = Double.parseDouble(txtDescuento.getText());
             double precio = Double.parseDouble(precioStr);
-
+            
             frmVenta.agregarDetalleVenta(idMoto, cantidad, precio, descuento); // llamada al método de FrmVenta
 
             this.dispose(); // cerrar FrmDetalleVenta

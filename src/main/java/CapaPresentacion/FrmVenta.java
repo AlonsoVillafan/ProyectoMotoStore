@@ -1,6 +1,7 @@
 package CapaPresentacion;
 
 import CapaDatos.SucursalDAO;
+import CapaDatos.VentaDAO;
 import CapaLogica.Distrito;
 import CapaLogica.Sucursal;
 import java.util.List;
@@ -19,6 +20,9 @@ public class FrmVenta extends javax.swing.JFrame {
     public FrmVenta() {
         initComponents();
         cargarSucursales();
+        VentaDAO ventaDAO = new VentaDAO();
+        txtIdVenta.setText(ventaDAO.generarIdVenta());
+        txtIdVenta.setEditable(false);
     }
 
     /**
@@ -136,7 +140,6 @@ public class FrmVenta extends javax.swing.JFrame {
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
-        btnDetalleVenta.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         btnDetalleVenta.setText("Seleccionar Moto");
         btnDetalleVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

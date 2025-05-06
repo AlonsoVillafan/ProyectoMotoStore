@@ -158,7 +158,18 @@ BEGIN
 	SELECT	*
 	FROM Sucursal
 END
---
+
+---------------------------------------------------------------------------
+--OBTENER EL ULTIMO ID DE VENTA, PARA MOSTRARLO E INCREMENTARLO DESDE LA APLICACION
+---------------------------------------------------------------------------
+CREATE PROCEDURE SP_OBTENER_ULTIMO_IDVENTA
+AS
+BEGIN
+    SELECT TOP 1 idVenta
+    FROM Venta
+    ORDER BY idVenta DESC
+END
+
 
 
 
