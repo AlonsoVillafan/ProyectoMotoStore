@@ -18,6 +18,11 @@ public class Moto {
         this.Stock = Stock;
     }
 
+    public Moto(int idMoto) {
+        this.idMoto = idMoto;
+    }
+    
+
     public int getIdMoto() {
         return idMoto;
     }

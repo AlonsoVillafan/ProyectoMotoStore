@@ -1,9 +1,16 @@
 package CapaPresentacion;
 
+import CapaDatos.DetalleVentaDAO;
+import CapaDatos.EmpleadoDAO;
 import CapaDatos.SucursalDAO;
 import CapaDatos.VentaDAO;
+import CapaLogica.Cliente;
+import CapaLogica.DetalleVenta;
 import CapaLogica.Distrito;
+import CapaLogica.Empleado;
+import CapaLogica.Moto;
 import CapaLogica.Sucursal;
+import CapaLogica.Venta;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -20,6 +27,7 @@ public class FrmVenta extends javax.swing.JFrame {
     public FrmVenta() {
         initComponents();
         cargarSucursales();
+        cargarEmpleados();
         VentaDAO ventaDAO = new VentaDAO();
         txtIdVenta.setText(ventaDAO.generarIdVenta());
         txtIdVenta.setEditable(false);
@@ -44,10 +52,10 @@ public class FrmVenta extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtIdVenta = new javax.swing.JTextField();
         txtCodCliente = new javax.swing.JTextField();
-        txtNombre = new javax.swing.JTextField();
         cboSucursal = new javax.swing.JComboBox<>();
         cboFormaPago = new javax.swing.JComboBox<>();
-        jButton3 = new javax.swing.JButton();
+        btnRegistrarVenta = new javax.swing.JButton();
+        cboEmpleados = new javax.swing.JComboBox<>();
         btnDetalleVenta = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
 
@@ -77,9 +85,18 @@ public class FrmVenta extends javax.swing.JFrame {
 
         jLabel6.setText("Forma de Pago:");
 
+        txtIdVenta.setEnabled(false);
+
+        txtCodCliente.setEnabled(false);
+
         cboFormaPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TARJETA", "EFECTIVO", "YAPE", "PLIN" }));
 
-        jButton3.setText("REGISTRAR VENTA");
+        btnRegistrarVenta.setText("REGISTRAR VENTA");
+        btnRegistrarVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarVentaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -105,13 +122,13 @@ public class FrmVenta extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboFormaPago, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cboFormaPago, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cboEmpleados, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                .addComponent(btnRegistrarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(82, 82, 82))
         );
         jPanel1Layout.setVerticalGroup(
@@ -126,8 +143,8 @@ public class FrmVenta extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel4)
                     .addComponent(txtCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnRegistrarVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -174,7 +191,7 @@ public class FrmVenta extends javax.swing.JFrame {
                     .addComponent(btnDetalleVenta))
                 .addGap(17, 17, 17)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -186,12 +203,113 @@ public class FrmVenta extends javax.swing.JFrame {
         frmDetalleVenta.setVisible(true);
     }//GEN-LAST:event_btnDetalleVentaActionPerformed
 
+    private void btnRegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarVentaActionPerformed
+        //ALMACENO LOS DATOS DEL FORMULARIO
+        String idVenta = txtIdVenta.getText().trim();
+        int idCliente = Integer.parseInt(txtCodCliente.getText().trim());
+        Sucursal sucursalSeleccionada = (Sucursal) cboSucursal.getSelectedItem();
+        Empleado empleadoSeleccionado = (Empleado) cboEmpleados.getSelectedItem();
+        String formaPago = cboFormaPago.getSelectedItem().toString();
+
+        //VALIDO QUE NO HAYA CAMPOS VACIOS
+        if (idVenta.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe generar un ID de venta.");
+            return;
+        }
+
+        if (sucursalSeleccionada == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una empleado.");
+            return;
+        }
+
+        if (empleadoSeleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una sucursal.");
+            return;
+        }
+
+        //VALIDAMOS QUE HAYA AL MENOS UNA MOTO AGREGADA
+        DefaultTableModel modelo = (DefaultTableModel) tablaDetalleVenta.getModel();
+        if (modelo.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Debe agregar al menos una moto a la venta.");
+            return;
+        }
+
+        //MENSAJE DE CONFIRMACION ANTES DE REGISTRAR
+        int opcion = JOptionPane.showConfirmDialog(
+            this,
+            "¿Está seguro de registrar esta venta?",
+            "Confirmar registro",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (opcion != JOptionPane.YES_OPTION) {
+            return; //SI EL USUARIO SELECCIONA NO, SE CANCELA EN PROCESO
+        }
+
+        //CREO EL OBJETO VENTA
+        Venta venta = new Venta();
+        venta.setIdVenta(idVenta);
+        venta.setIdCliente(new Cliente(idCliente));
+        venta.setFormaPago(formaPago);
+        venta.setEmpleado(empleadoSeleccionado);
+        venta.setSucursal(sucursalSeleccionada);
+        
+        
+
+        //REGISTRO LA VENTA
+        VentaDAO ventaDAO = new VentaDAO();
+        boolean ventaRegistrada = ventaDAO.registrarVenta(venta);
+
+        if (!ventaRegistrada) {
+            JOptionPane.showMessageDialog(this, "Error al registrar la venta.");
+            limpiarCampos();
+            return;
+        }
+
+        //REGISTRO EL DETALLE DE VENTA
+        DetalleVentaDAO detalleDAO = new DetalleVentaDAO();
+
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            int idMoto = Integer.parseInt(modelo.getValueAt(i, 1).toString());
+            int cantidad = Integer.parseInt(modelo.getValueAt(i, 2).toString());
+            double precioUnitario = Double.parseDouble(modelo.getValueAt(i, 3).toString());
+            double descuento = Double.parseDouble(modelo.getValueAt(i, 4).toString());
+
+            //CREAMOS EL OBJETO DETALLE VENTA
+            DetalleVenta detalle = new DetalleVenta();
+            detalle.setVenta(venta);
+            detalle.setMoto(new Moto(idMoto));
+            detalle.setCantidad(cantidad);
+            detalle.setPrecioVentaUnidad(precioUnitario);
+            detalle.setDescuento(descuento);
+
+            boolean detalleRegistrado = detalleDAO.registrarDetalleVenta(detalle);
+
+            if (!detalleRegistrado) {
+                JOptionPane.showMessageDialog(this, "Error al registrar un detalle de la venta.");
+                limpiarCampos();
+                return;
+            }
+        }
+
+        //MENSAJE DE CORRECTO REGISTRO DE VENTA
+        JOptionPane.showMessageDialog(this, "La venta fue registrada correctamente.");
+        this.dispose();
+
+    }//GEN-LAST:event_btnRegistrarVentaActionPerformed
+    
+
+    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //METODO DE ACCESO PARA SETEAR EL IDCLIENTE SELECCIONADO
     //EN LA CAJA DE TEXTO
     public void setIdCliente(String idCliente){
         txtCodCliente.setText(idCliente);
     }
     
+    
+    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //METODO PARA AGREGAR LOS DATOS DEL FORMULARIO DETALLE VENTA:
     public void agregarDetalleVenta(String idMoto, int cantidad, double precioUnidad, double descuento) {
         DefaultTableModel modelo = (DefaultTableModel) tablaDetalleVenta.getModel();
@@ -200,6 +318,18 @@ public class FrmVenta extends javax.swing.JFrame {
         modelo.addRow(new Object[]{ idVenta, idMoto, cantidad, precioUnidad, descuento });
     }
     
+    
+    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
+    private void limpiarCampos(){
+        // Limpiar la tabla de detalles de venta
+        DefaultTableModel modelo = (DefaultTableModel) tablaDetalleVenta.getModel();
+        modelo.setRowCount(0); // Elimina todas las filas
+    }
+    
+    
+    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     //METODO QUE CARGARA LOS DISTRITOS EN MI COMBO BOX
     private void cargarSucursales() {
         try {
@@ -210,13 +340,34 @@ public class FrmVenta extends javax.swing.JFrame {
             List<Sucursal> sucursal = new SucursalDAO().listarSucursal();              
             for (Sucursal s : sucursal) {
                 cboSucursal.addItem(s); //AGREGO CADA OBJETO AL COMBO
-                                         //USANDO @OVERRIDE MUESTRO SOLO EL NOMBRE DE LA SUCURSAL
-                System.out.println(s.getNombreSucursal());
+                                         //USANDO @OVERRIDE MUESTRO SOLO EL NOMBRE DE LA SUCURSAL               
             }           
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al cargar las Sucursales:" + e.getMessage());
         }      
     }    
+    
+    
+    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
+    //METODO QUE CARGARA LOS DISTRITOS EN MI COMBO BOX
+    private void cargarEmpleados() {
+        try {
+            cboEmpleados.removeAllItems(); //LIMPIO EL COMBO
+            cboEmpleados.addItem(new Empleado(0,"-Seleccione-")); //OPCION POR DEFECTO
+            //LLAMO AL METODO QUE SE CONECTA A LA BD (DAO), TRAIGO TODOS LOS EMPLEADOS
+            //Y LOS ALMACENO EN UNA VARIABLE QUE ES UNA LISTA DE OBJETOS EMPLEADOS
+            List<Empleado> empleados = new EmpleadoDAO().listarEmpleados();              
+            for (Empleado e : empleados) {
+                cboEmpleados.addItem(e); //AGREGO CADA OBJETO AL COMBO
+                                         //USANDO @OVERRIDE MUESTRO SOLO EL NOMBRE DE LA SUCURSAL           
+            }           
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar las Sucursales:" + e.getMessage());
+        }      
+    }    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -254,9 +405,10 @@ public class FrmVenta extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDetalleVenta;
+    private javax.swing.JButton btnRegistrarVenta;
+    private javax.swing.JComboBox<Empleado> cboEmpleados;
     private javax.swing.JComboBox<String> cboFormaPago;
     private javax.swing.JComboBox<Sucursal> cboSucursal;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -268,6 +420,5 @@ public class FrmVenta extends javax.swing.JFrame {
     private javax.swing.JTable tablaDetalleVenta;
     private javax.swing.JTextField txtCodCliente;
     private javax.swing.JTextField txtIdVenta;
-    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }

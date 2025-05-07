@@ -107,15 +107,29 @@ END
 CREATE PROCEDURE SP_REGISTRAR_DETALLE_VENTA
     @idVenta CHAR(4),
     @idMoto INT,
-	@cantidad TINYINT,
-	@precioVenta DECIMAL(10,2),
-	@descuento DECIMAL(10,2)
+    @cantidad TINYINT,
+    @precioVenta DECIMAL(10,2),
+    @descuento DECIMAL(10,2)
 AS
 BEGIN
-    INSERT INTO DetalleVenta (IdVenta, IdMoto, Cantidad, PrecioVentaUnidad, Descuento)
-    VALUES (@idVenta, @idMoto, @cantidad , @precioVenta, @descuento)
-END
+    -- Validar que haya stock suficiente
+    IF EXISTS (SELECT 1 FROM Moto WHERE IdMoto = @idMoto AND Stock >= @cantidad)
+    BEGIN
+        -- Insertar el detalle de la venta
+        INSERT INTO DetalleVenta (IdVenta, IdMoto, Cantidad, PrecioVentaUnidad, Descuento)
+        VALUES (@idVenta, @idMoto, @cantidad , @precioVenta, @descuento)
 
+        -- Actualizar el stock de la moto
+        UPDATE Moto
+        SET Stock = Stock - @cantidad
+        WHERE IdMoto = @idMoto
+    END
+    ELSE
+    BEGIN
+        -- Lanzar error si no hay stock suficiente
+        RAISERROR('Stock insuficiente para la moto seleccionada.', 16, 1)
+    END
+END
 ---------------------------------------------------------------------------
 --PARA MOSTRARLO EN UN LABEL
 ---------------------------------------------------------------------------
@@ -169,10 +183,20 @@ BEGIN
     FROM Venta
     ORDER BY idVenta DESC
 END
+--
+select * from Empleado
 
+---------------------------------------------------------------------------
+--COMBO BOX LISTAR EMPLEADOS
+---------------------------------------------------------------------------
+CREATE PROCEDURE SP_LISTAR_EMPLEADO
+AS
+BEGIN
+	SELECT	IdEmpleado, Nombres
+	FROM Empleado
+END
 
-
-
-
-
-
+---------------------------------------------------------------------------
+SELECT * FROM Cliente
+select * from Moto
+select * from DetalleVenta

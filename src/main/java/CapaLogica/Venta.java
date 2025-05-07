@@ -31,6 +31,10 @@ public class Venta {
         this.empleado = empleado;
     }
     
+    public Venta(){
+        
+    }
+    
     public String getIdVenta() {
         return idVenta;
     }

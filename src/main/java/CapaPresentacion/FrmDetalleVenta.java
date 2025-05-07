@@ -188,7 +188,7 @@ public class FrmDetalleVenta extends javax.swing.JFrame {
             String cantidadStr = txtCantidad.getText().trim();
             if (cantidadStr.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "La cantidad no puede estar vacía.");
-                return; // Salir del método
+                return; //SALGO DEL METODO SI FALLA
             }
 
             int cantidad;
@@ -196,14 +196,14 @@ public class FrmDetalleVenta extends javax.swing.JFrame {
                 cantidad = Integer.parseInt(cantidadStr);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "La cantidad debe ser un número entero.");
-                return; // Salir del método
+                return; //SALGO DEL METODO SI FALLA
             }
 
             // Validación para descuento (no debe estar vacío ni ser texto)
             String descuentoStr = txtDescuento.getText().trim();
             if (descuentoStr.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "El descuento no puede estar vacío.");
-                return; // Salir del método
+                return; //SALGO DEL METODO SI FALLA
             }
 
             double descuento;
@@ -211,15 +211,15 @@ public class FrmDetalleVenta extends javax.swing.JFrame {
                 descuento = Double.parseDouble(descuentoStr);
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "El descuento debe ser un número válido.");
-                return; // Salir del método
+                return; //SALGO DEL METODO SI FALLA
             }
 
             double precio = Double.parseDouble(precioStr);
 
             
-            frmVenta.agregarDetalleVenta(idMoto, cantidad, precio, descuento); // llamada al método de FrmVenta
+            frmVenta.agregarDetalleVenta(idMoto, cantidad, precio, descuento); //LLAMO AL METODO DE FRMVENTA
 
-            this.dispose(); // cerrar FrmDetalleVenta
+            this.dispose(); //AL FINALIZAR CIERRO EL FORMULARIO
         } else {
             JOptionPane.showMessageDialog(this, "Selecciona una moto.");
         }

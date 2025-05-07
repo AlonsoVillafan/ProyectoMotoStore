@@ -3,6 +3,8 @@ package CapaDatos;
 import CapaLogica.DetalleVenta;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 
 public class DetalleVentaDAO {
@@ -21,8 +23,8 @@ public class DetalleVentaDAO {
             cs.setDouble(5, detalleVenta.getDescuento());
             cs.executeUpdate();
             return true;
-        } catch (Exception e) {
-            System.out.println("Error al registrar el detalle de venta: " + e.getMessage());
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al registrar el detalle de venta: " + e.getMessage());
             return false;
         } 
     }

@@ -20,6 +20,12 @@ public class Empleado {
         this.fechaIngreso = fechaIngreso;
     }
 
+    public Empleado(int idEmpleado, String nombres) {
+        this.idEmpleado = idEmpleado;
+        this.nombres = nombres;
+    }
+    
+
     public int getIdEmpleado() {
         return idEmpleado;
     }
@@ -66,6 +72,11 @@ public class Empleado {
 
     public void setFechaIngreso(Date fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
+    }
+
+    @Override
+    public String toString() {
+        return nombres;
     }
     
     

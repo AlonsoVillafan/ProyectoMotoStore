@@ -15,6 +15,10 @@ public class DetalleVenta {
         this.precioVentaUnidad = precioVentaUnidad;
         this.descuento = descuento;
     }
+    
+    public DetalleVenta(){
+        
+    }
 
     public Venta getVenta() {
         return venta;

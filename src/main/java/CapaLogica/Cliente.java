@@ -34,8 +34,11 @@ public class Cliente {
         this.telefono = telefono;
         this.distrito = distrito;
     }
-    
 
+    public Cliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
+    
     // Getters y Setters
     //cuando voy a retornar un atributo
     //declaro public int (declaro el tipo de dato a retornar)
