@@ -193,9 +193,10 @@ BEGIN
 	SELECT	IdEmpleado, Nombres
 	FROM Empleado
 END
-
+--***********************************************************************--
+--PLAN DE AUDITORIA -------------------------------------------------------
 ---------------------------------------------------------------------------
---COMBO BOX LISTAR EMPLEADOS
+--TRIGGER HISTORIAL VENTAS
 ---------------------------------------------------------------------------
 /*
 Cuando haces un INSERT INTO ... SELECT ...,
@@ -224,3 +225,16 @@ BEGIN
     JOIN Empleado e ON i.IdEmpleado = e.IdEmpleado; --JOIN CON LA TABLA EMPLEADO 
 END
 GO
+
+---------------------------------------------------------------------------
+--VISTAS PARA CONSULTAS
+---------------------------------------------------------------------------
+CREATE VIEW VISTA_VENTAS_POR_SUCURSAL
+AS
+SELECT	s.NombreSucursal,
+		COUNT(v.IdVenta) AS CantVentas,
+		SUM(dv.Cantidad * dv.PrecioVentaUnidad - dv.Descuento) AS TotalVentas
+FROM Venta v
+JOIN Sucursal s ON v.IdSucursal = s.IdSucursal
+JOIN DetalleVenta dv ON v.IdVenta = dv.IdVenta
+GROUP BY s.NombreSucursal;
