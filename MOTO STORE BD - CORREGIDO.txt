@@ -258,3 +258,15 @@ INSERT INTO Reclamo (DetalleReclamo, FechaReclamo, EstadoReclamo, IdTipoReclamo,
 ('Problemas de garantía', '2025-04-08', 'Pendiente', 2, 'V003', 'S03', 200.00),
 ('Defecto en pintura', '2025-04-09', 'Resuelto', 1, 'V004', 'S04', 100.00);
 GO
+
+--TABLA: Auditoria
+CREATE TABLE Auditoria (
+    IdAuditoria INT IDENTITY(1,1) PRIMARY KEY,
+    Usuario VARCHAR(50) NOT NULL,
+    Accion NVARCHAR(50) NOT NULL,            -- Ejemplo: 'INSERT', 'UPDATE', 'DELETE'
+    TablaAfectada NVARCHAR(50) NOT NULL,     -- Ejemplo: 'Venta', 
+    FechaHora DATETIME DEFAULT GETDATE(),
+    Descripcion NVARCHAR(255)
+);
+
+

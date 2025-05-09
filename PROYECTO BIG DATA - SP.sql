@@ -183,8 +183,6 @@ BEGIN
     FROM Venta
     ORDER BY idVenta DESC
 END
---
-select * from Empleado
 
 ---------------------------------------------------------------------------
 --COMBO BOX LISTAR EMPLEADOS
@@ -197,6 +195,32 @@ BEGIN
 END
 
 ---------------------------------------------------------------------------
-SELECT * FROM Cliente
-select * from Moto
-select * from DetalleVenta
+--COMBO BOX LISTAR EMPLEADOS
+---------------------------------------------------------------------------
+/*
+Cuando haces un INSERT INTO ... SELECT ...,
+no usas VALUES porque estás insertando los datos que vienen de una consulta (SELECT) en lugar de ingresarlos manualmente.
+*/
+--TRIGGER PARA REGISTRAR AUDITORIA DE INSERCIONES EN LA TABLA VENTA
+CREATE TRIGGER TG_INSERTAR_VENTA_AUDITORIA
+ON Venta
+AFTER INSERT
+AS
+BEGIN
+    INSERT INTO Auditoria (Usuario, Accion, TablaAfectada, Descripcion)
+    SELECT 
+        --REGISTRAMOS AL EMPLEADO QUE REALIZO LA VENTA
+        e.Nombres + ' ' + e.Apellidos AS Usuario,
+        
+        --REGISTRAMOS LA ACCION
+        'INSERT' AS Accion,
+        
+        --REGISTRAMOS LA VENTA
+        'Venta' AS TablaAfectada,
+        
+        --EN LA DESCRIPCION ESPECIFICO 
+        'Se registró la venta con ID ' + i.IdVenta + ' por el empleado ' + e.Nombres + ' ' + e.Apellidos AS Descripcion
+    FROM inserted i
+    JOIN Empleado e ON i.IdEmpleado = e.IdEmpleado; --JOIN CON LA TABLA EMPLEADO 
+END
+GO
