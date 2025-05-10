@@ -220,7 +220,8 @@ BEGIN
         'Venta' AS TablaAfectada,
         
         --EN LA DESCRIPCION ESPECIFICO 
-        'Se registró la venta con ID ' + i.IdVenta + ' por el empleado ' + e.Nombres + ' ' + e.Apellidos AS Descripcion
+        'Se registró la venta con ID ' + i.IdVenta + ' por el empleado '
+		+ e.Nombres + ' ' + e.Apellidos AS Descripcion
     FROM inserted i
     JOIN Empleado e ON i.IdEmpleado = e.IdEmpleado; --JOIN CON LA TABLA EMPLEADO 
 END
@@ -238,3 +239,69 @@ FROM Venta v
 JOIN Sucursal s ON v.IdSucursal = s.IdSucursal
 JOIN DetalleVenta dv ON v.IdVenta = dv.IdVenta
 GROUP BY s.NombreSucursal;
+
+---------------------------------------------------------------------------
+--EJEMPLOS DE TRANSACCION, FUNCION Y CURSOR
+---------------------------------------------------------------------------
+BEGIN TRY
+    BEGIN TRANSACTION;
+
+    -- Insertar venta
+    INSERT INTO Venta (IdVenta, IdCliente, FormaPago, IdSucursal, IdEmpleado)
+    VALUES ('V005', 5, 'Efectivo', 'S01', 2);
+
+    -- Insertar detalle de venta
+    INSERT INTO DetalleVenta (IdVenta, IdMoto, Cantidad, PrecioVentaUnidad, Descuento)
+    VALUES ('V005', 1, 1, 15000.00, 0.00);
+
+    COMMIT TRANSACTION;
+    PRINT 'Venta registrada correctamente';
+END TRY
+BEGIN CATCH
+    ROLLBACK TRANSACTION;
+    PRINT 'Error al registrar la venta: ' + ERROR_MESSAGE();
+END CATCH;
+
+---------------------------------------------------------------------------
+--EJEMPLO DE FUNCION
+---------------------------------------------------------------------------
+CREATE FUNCTION FUNC_STOCK_DISPONIBLE (@IdMoto INT)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @Stock INT;
+
+    SELECT @Stock = Stock FROM Moto WHERE IdMoto = @IdMoto;
+
+    RETURN @Stock;
+END;
+GO
+
+--EJECUTANDO LA FUNCION
+SELECT [dbo].[FUNC_STOCK_DISPONIBLE] (1) AS 'STOCK DISPONIBLE'
+
+---------------------------------------------------------------------------
+--EJEMPLO DE CURSOR
+---------------------------------------------------------------------------
+DECLARE @Nombre NVARCHAR(50), @Apellido NVARCHAR(100), @Total INT;
+
+DECLARE cursor_clientes CURSOR FOR
+SELECT C.Nombres, C.Apellidos, COUNT (V.IdCliente) AS 'TOTAL COMPRAS'
+FROM Cliente C JOIN Venta V ON C.IdCliente = V.IdCliente
+GROUP BY C.Nombres, C.Apellidos
+
+OPEN cursor_clientes;
+FETCH NEXT FROM cursor_clientes INTO @Nombre, @Apellido, @Total;
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+	PRINT '******************************'
+    PRINT 'Cliente: ' + @Nombre + ' ' + @Apellido;
+	PRINT 'Total de Compras: ' + CAST(@Total AS NVARCHAR)
+	PRINT '******************************'
+	PRINT ' '
+    FETCH NEXT FROM cursor_clientes INTO @Nombre, @Apellido, @Total;
+END;
+
+CLOSE cursor_clientes;
+DEALLOCATE cursor_clientes;
