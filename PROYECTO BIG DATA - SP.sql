@@ -144,9 +144,6 @@ BEGIN
 	ORDER BY MO.Precio ASC
 END
 
---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 TOKEN NETBEANS
-
-
 --FORMULARIO VENTA ---------------------------------------------
 ---------------------------------------------------------------------------
 --BOTON REGISTRAR VENTA
