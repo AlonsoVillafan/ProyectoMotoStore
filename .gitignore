@@ -1,0 +1,44 @@
+# ===========================
+# Maven
+# ===========================
+# Archivos generados automáticamente al compilar
+target/
+
+
+# ===========================
+# IntelliJ IDEA
+# ===========================
+.idea/
+*.iml
+out/
+**/out/
+
+
+# ===========================
+# Visual Studio Code
+# ===========================
+.vscode/
+
+
+# ===========================
+# NetBeans
+# ===========================
+# Conservamos los archivos importantes del proyecto,
+# pero ignoramos configuraciones privadas del usuario.
+nbproject/private/
+
+
+# ===========================
+# Sistema operativo
+# ===========================
+.DS_Store
+Thumbs.db
+
+
+# ===========================
+# Configuración local
+# ===========================
+# Más adelante aquí tendremos usuario/password de SQL Server.
+src/main/resources/database.properties
+
+.env
