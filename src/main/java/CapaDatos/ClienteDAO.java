@@ -1,16 +1,34 @@
 package CapaDatos;
 
-import CapaLogica.Cliente;
-import CapaLogica.Distrito;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import CapaLogica.Cliente;
+import CapaLogica.Distrito;
+
 
 
 public class ClienteDAO {
+
+    // El DAO depende de una abstracción y no directamente
+    // de la clase Conexion.
+    private final ProveedorConexion proveedorConexion;
+
+    
+    //Constructor normal utilizado por la aplicación.
+    //Actualmente utilizamos SQL Server mediante Conexion.
+    public ClienteDAO() {
+        this(new Conexion());
+    }
+
+    //Constructor que permite proporcionar otra implementación
+    //de conexión sin modificar el código de ClienteDAO.
+    public ClienteDAO(ProveedorConexion proveedorConexion) {
+        this.proveedorConexion = proveedorConexion;
+    }
     
     //-------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------
@@ -19,7 +37,8 @@ public class ClienteDAO {
        
         String sql = "{CALL SP_REGISTRAR_CLIENTE(?,?,?,?,?,?)}";
         
-        try (   Connection cn = new Conexion().getConnection();
+        //La conexión se obtiene mediante la abstracción.
+        try (   Connection cn = proveedorConexion.getConnection();
                 CallableStatement cs = cn.prepareCall(sql)){           
             cs.setString(1, cliente.getNombres());
             cs.setString(2, cliente.getApellidos());
@@ -44,8 +63,8 @@ public class ClienteDAO {
     public List<Cliente> listarClientes(){
         List<Cliente> lista = new ArrayList<>();
         String sql = "{CALL SP_LISTAR_CLIENTES}";
-               
-        try (   Connection cn = new Conexion().getConnection();
+        //La conexión se obtiene mediante la abstracción.       
+        try (   Connection cn = proveedorConexion.getConnection();
                 CallableStatement cs = cn.prepareCall(sql);
                 ResultSet rs = cs.executeQuery()
                 ){                    
@@ -77,8 +96,8 @@ public class ClienteDAO {
         List<Cliente> lista = new ArrayList<>();
         String sql = "{CALL SP_BUSCAR_CLIENTE(?)}";
       
-        
-        try (   Connection cn = new Conexion().getConnection();
+        //La conexión se obtiene mediante la abstracción.
+        try (   Connection cn = proveedorConexion.getConnection();
                 CallableStatement cs = cn.prepareCall(sql);
                 ){
             

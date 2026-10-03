@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class Conexion {
+public class Conexion implements  ProveedorConexion{
 
     //Aquí se almacenarán los valores leídos
     //desde el archivo database.properties.
@@ -35,8 +35,11 @@ public class Conexion {
         }
     }
 
+
+    @Override 
     //Crea y devuelve una conexión hacia SQL Server.
     public Connection getConnection() throws SQLException {
+
         // Recuperamos los valores desde el archivo properties.
         String driver = propiedades.getProperty("db.driver");
         String url = propiedades.getProperty("db.url");
@@ -50,7 +53,7 @@ public class Conexion {
         } catch (ClassNotFoundException e) {
 
             throw new SQLException(
-                    "No se encontró el driver JDBC de SQL Server", e);
+                    "No se encontró el driver JDBC", e);
         }
 
         return DriverManager.getConnection(url, usuario, password);
