@@ -1,0 +1,11 @@
+# ====================================================
+# Ejemplo de configuración para conectarse a SQL Server
+# ====================================================
+
+db.driver=com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+# Cambiar los valores según la instalación local.
+db.url=jdbc:sqlserver://localhost:1433;databaseName=STOREMOTO_BD;encrypt=true;trustServerCertificate=true
+
+db.user=TU_USUARIO
+db.password=TU_PASSWORD

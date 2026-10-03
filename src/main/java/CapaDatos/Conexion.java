@@ -1,33 +1,58 @@
 package CapaDatos;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class Conexion {
-    
-    
-    //pivate : Solo esta clase puede acceder a estas variables
-    //static : La variable pertenece a la clase, no a una instancia. Solo se carga una vez en memoria
-    private static final 
-            String url = "jdbc:sqlserver://localhost:1433;instanceName=SQLEXPRESS;databaseName=STOREMOTO_BD;encrypt=true;trustServerCertificate=true";     
-    private static final
-            String user = "sa"; 
-    private static final
-            String password = "1234";
-    
-    
-    //ESTE METODO PUEDE LANZAR UNA EXCEPCION Y USANDO THROWS
-    //DEJO QUE LA CAPA DATOS MANEJE LOS ERRORES.
+
+    //Aquí se almacenarán los valores leídos
+    //desde el archivo database.properties.
+    private final Properties propiedades = new Properties();
+
+    public Conexion() {
+        cargarConfiguracion();
+    }
+
+    //Carga los datos de conexión desde database.properties.
+    private void cargarConfiguracion() {
+
+        try (InputStream archivo = getClass()
+                .getClassLoader()
+                .getResourceAsStream("database.properties")) {
+
+            //Validamos que el archivo realmente exista.
+            if (archivo == null) {
+                throw new RuntimeException("No se encontró database.properties");
+            }
+            propiedades.load(archivo);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error al cargar la configuración de la base de datos", e);
+        }
+    }
+
+    //Crea y devuelve una conexión hacia SQL Server.
     public Connection getConnection() throws SQLException {
+        // Recuperamos los valores desde el archivo properties.
+        String driver = propiedades.getProperty("db.driver");
+        String url = propiedades.getProperty("db.url");
+        String usuario = propiedades.getProperty("db.user");
+        String password = propiedades.getProperty("db.password");
 
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            
+            //Cargamos el driver JDBC configurado.
+            Class.forName(driver);
+
         } catch (ClassNotFoundException e) {
-            throw new SQLException("No se encontro el driver JDBC: ", e);
+
+            throw new SQLException(
+                    "No se encontró el driver JDBC de SQL Server", e);
         }
-        //SI NO HUBO ERRORES, RETORNO LA CONEXION
-        return DriverManager.getConnection(url,user,password);    
+
+        return DriverManager.getConnection(url, usuario, password);
     }
 }
