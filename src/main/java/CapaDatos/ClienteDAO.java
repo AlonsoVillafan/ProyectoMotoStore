@@ -3,6 +3,7 @@ package CapaDatos;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,16 +70,7 @@ public class ClienteDAO {
                 ResultSet rs = cs.executeQuery()
                 ){                    
             while (rs.next()) {
-                Cliente cliente = new Cliente(
-                        rs.getInt("idCliente"),
-                        rs.getString("Nombres"),
-                        rs.getString("Apellidos"),
-                        rs.getString("Dni"),
-                        rs.getDate("FechaNacimiento"),
-                        rs.getString("Telefono"),
-                        rs.getDate("FechaRegistro"),
-                        new Distrito (rs.getInt("IdDistrito"),rs.getString("NombreDistrito"))
-                );
+                Cliente cliente = mapearCliente(rs);
                 lista.add(cliente);             
             }
             
@@ -104,22 +96,12 @@ public class ClienteDAO {
             //REEMPLAZO EL PARAMETRO DEL SP POR EL VALOR DE LA VARIABLE BUSCAR
             cs.setString(1, buscar);
             
-            try (   ResultSet rs = cs.executeQuery()){
-                
+            try (   ResultSet rs = cs.executeQuery()){   
             //EL RESULTADO DE ESA CONSULTA LA ALMACENO EN LA LISTA
-            
                 while (rs.next()) {
-                    Cliente cliente = new Cliente(
-                            
-                            rs.getInt("idCliente"),
-                            rs.getString("Nombres"),
-                            rs.getString("Apellidos"),
-                            rs.getString("Dni"),
-                            rs.getDate("FechaNacimiento"),
-                            rs.getString("Telefono"),
-                            rs.getDate("FechaRegistro"),
-                            new Distrito (rs.getInt("IdDistrito"),rs.getString("NombreDistrito"))
-                    );          
+                    //Utilizamos un único método para convertir
+                    //la información de SQL a un objeto Cliente.
+                    Cliente cliente = mapearCliente(rs);        
                     lista.add(cliente);
                 }
             }                           
@@ -127,5 +109,28 @@ public class ClienteDAO {
             System.out.println("Error al buscar clientes: " + e.getMessage());           
         }
         return lista;
+    }
+
+
+    //Convierte la fila actual de un ResultSet en un objeto Cliente.
+    //Este método evita repetir el mismo código
+    //en listarClientes() y buscarCliente().
+    private Cliente mapearCliente(ResultSet rs) throws SQLException {
+
+        return new Cliente(
+                rs.getInt("idCliente"),
+                rs.getString("Nombres"),
+                rs.getString("Apellidos"),
+                rs.getString("Dni"),
+                rs.getDate("FechaNacimiento"),
+                rs.getString("Telefono"),
+                rs.getDate("FechaRegistro"),
+
+                // Construimos también el distrito asociado.
+                new Distrito(
+                        rs.getInt("IdDistrito"),
+                        rs.getString("NombreDistrito")
+                )
+        );
     }
 }
