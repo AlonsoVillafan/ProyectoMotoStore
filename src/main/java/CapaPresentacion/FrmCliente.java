@@ -242,22 +242,18 @@ public class FrmCliente extends javax.swing.JFrame {
         String telefono = txtTelefono.getText().trim();
         
         //VALIDO QUE SE LLENEN TODOS LOS CAMPOS
-        if (nombres.isEmpty() || apellidos.isEmpty() || dni.isEmpty() ||
-                fechaNac.isEmpty() || telefono.isEmpty()) {           
+        if (hayCamposVacios(nombres, apellidos, dni, fechaNac, telefono)) {           
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios."); 
             return; //SE CORTA EL FLUJO SI HAY CAMPOS VACIOS
         }
         
-        
         //CONVERTIMOS EL TEXTO DE LA FECHA A FORMATO JAVA.UTIL.DATE
-        java.util.Date fechaNacimiento = null;
-        
-        try {
-            java.text.SimpleDateFormat formato = new java.text.SimpleDateFormat("dd/MM/yyyy");
-            formato.setLenient(false); //NO PERMITE FECHAS INVALIDAD COMO 32/01/2024
-            fechaNacimiento = formato.parse(fechaNac);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Fecha inválida. Usa el formato dd/MM/yyyy.");
+                //Intentamos transformar el texto a una fecha.
+        java.util.Date fechaNacimiento = convertirFecha(fechaNac);
+
+        // Si no fue posible convertirla, informamos al usuario.
+        if (fechaNacimiento == null) {
+            JOptionPane.showMessageDialog(this, "Fecha inválida. Utilice el formato dd/MM/yyyy.");
             return;
         }
             
@@ -388,7 +384,55 @@ public class FrmCliente extends javax.swing.JFrame {
         }
         
     }
+
+
+    /*
+    Valida si alguno de los campos obligatorios está vacío.
     
+    La validación se separa del evento del botón
+    para mantener el método más fácil de leer.
+    */
+    private boolean hayCamposVacios(
+            String nombres,
+            String apellidos,
+            String dni,
+            String fechaNacimiento,
+            String telefono) {
+
+        return nombres.isEmpty()
+                || apellidos.isEmpty()
+                || dni.isEmpty()
+                || fechaNacimiento.isEmpty()
+                || telefono.isEmpty();
+    }
+
+    /*
+    Convierte la fecha escrita por el usuario
+    al formato utilizado por nuestra aplicación.
+    
+    Si la fecha no es válida, retorna null.
+    */
+    private java.util.Date convertirFecha(String fechaTexto) {
+
+        try {
+
+            java.text.SimpleDateFormat formato =
+                    new java.text.SimpleDateFormat("dd/MM/yyyy");
+
+            // Evita aceptar fechas inválidas como 40/20/2026.
+            formato.setLenient(false);
+
+            return formato.parse(fechaTexto);
+
+        } catch (Exception e) {
+
+            return null;
+        }
+    }
+
+//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------
+
     /**
      * @param args the command line arguments
      */
