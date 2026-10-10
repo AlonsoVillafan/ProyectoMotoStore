@@ -8,6 +8,7 @@ import CapaLogica.Distrito;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import CapaLogica.ClienteValidador;
 
 /**
  *
@@ -20,6 +21,9 @@ public class FrmCliente extends javax.swing.JFrame {
         cargarDistritos();
         txtBuscar.requestFocus();
     }
+
+    // Objeto encargado únicamente de validar los datos del cliente.
+    private final ClienteValidador clienteValidador = new ClienteValidador();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -242,14 +246,15 @@ public class FrmCliente extends javax.swing.JFrame {
         String telefono = txtTelefono.getText().trim();
         
         //VALIDO QUE SE LLENEN TODOS LOS CAMPOS
-        if (hayCamposVacios(nombres, apellidos, dni, fechaNac, telefono)) {           
+        //La validación ya no pertenece al formulario, sino a ClienteValidador.
+        if (clienteValidador.hayCamposVacios(nombres, apellidos, dni, fechaNac, telefono)) {           
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios."); 
             return; //SE CORTA EL FLUJO SI HAY CAMPOS VACIOS
         }
         
-        //CONVERTIMOS EL TEXTO DE LA FECHA A FORMATO JAVA.UTIL.DATE
-                //Intentamos transformar el texto a una fecha.
-        java.util.Date fechaNacimiento = convertirFecha(fechaNac);
+        // La conversión y validación de la fecha
+        // también se delega a ClienteValidador.
+        java.util.Date fechaNacimiento = clienteValidador.convertirFecha(fechaNac);
 
         // Si no fue posible convertirla, informamos al usuario.
         if (fechaNacimiento == null) {
@@ -383,51 +388,6 @@ public class FrmCliente extends javax.swing.JFrame {
             });           
         }
         
-    }
-
-
-    /*
-    Valida si alguno de los campos obligatorios está vacío.
-    
-    La validación se separa del evento del botón
-    para mantener el método más fácil de leer.
-    */
-    private boolean hayCamposVacios(
-            String nombres,
-            String apellidos,
-            String dni,
-            String fechaNacimiento,
-            String telefono) {
-
-        return nombres.isEmpty()
-                || apellidos.isEmpty()
-                || dni.isEmpty()
-                || fechaNacimiento.isEmpty()
-                || telefono.isEmpty();
-    }
-
-    /*
-    Convierte la fecha escrita por el usuario
-    al formato utilizado por nuestra aplicación.
-    
-    Si la fecha no es válida, retorna null.
-    */
-    private java.util.Date convertirFecha(String fechaTexto) {
-
-        try {
-
-            java.text.SimpleDateFormat formato =
-                    new java.text.SimpleDateFormat("dd/MM/yyyy");
-
-            // Evita aceptar fechas inválidas como 40/20/2026.
-            formato.setLenient(false);
-
-            return formato.parse(fechaTexto);
-
-        } catch (Exception e) {
-
-            return null;
-        }
     }
 
 //--------------------------------------------------------------------------------------
